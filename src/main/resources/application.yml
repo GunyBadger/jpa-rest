@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: Simplilearn-Spring-jdbc
+  datasource:
+    url: jdbc:mysql://localhost:3306/mydb
+    username: root
+    password: P@ddl3dog
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+     hibernate:
+       '[format_sql]': true

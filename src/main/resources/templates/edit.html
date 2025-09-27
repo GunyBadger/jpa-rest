@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Users System</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container w-75 mt-5">
+		<div th:replace="~{fragments :: navbar ('add')}"></div>
+		<h2 clas="mb-4">Edit User</h2>
+		<div class="w-50 mx-auto">
+		<form th:action="@{/edit}" th:object="${user}" method="post">
+
+		  <div class="mb-3">
+            <label for="idUser" class="form-label">Id:</label>
+            <input type="text" class="form-control bg-body-tertiary" th:field="*{idUser}" readonly>
+          </div>
+
+           <div class="mb-3">
+            <label for="firstName" class="form-label">First Name:</label>
+            <input type="text" class="form-control" th:field="*{firstName}" placeholder="Enter First Name" required>
+          </div>
+
+           <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name:</label>
+            <input type="text" class="form-control" th:field="*{lastName}" placeholder="Enter Last Name" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" class="form-control" th:field="*{username}" placeholder="Enter username" required>
+            <span class="small text-danger"th:errors="*{username}"></span>
+          </div>
+
+          <div class="mb-3">
+            <label for="birthDate" class="form-label">Date of Birth:</label>
+            <input type="date" class="form-control" th:field="*{birthDate}" placeholder="mm-DD-yyyy" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="status" class="form-label">Status:</label>
+            <input type="text" class="form-control" th:field="*{status}" placeholder="Enter Status" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary mt-3">Update User:</button>
+
+         </form>
+         </div>
+	</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

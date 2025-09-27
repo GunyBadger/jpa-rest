@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>This is the Home page</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container w-75 mt-5">
+		<div th:replace="~{fragments :: navbar ('list')}"></div>
+		<h1>Users List</h1>
+		<table class="table table-dark table-striped">
+		   <thead>
+		   <tr>
+		     <th>Id</th>
+		     <th>Name</th>
+		     <th>Username</th>
+		     <th>Birthdate</th>
+		     <th>Status</th>
+		     <th>#</th>
+		   </tr>
+		   </thead>
+
+		   <tbody>
+             <tr th:each="user : ${users}">
+              <td th:text="${user.idUser}">1</td>
+              <td th:text="|${user.firstName} ${user.lastName}|">Jane Doe</td>
+              <td th:text="${#strings.toUpperCase(user.username)}">JDOE</td>
+              <td th:text="${#dates.format(user.birthDate, 'dd/MM/yyyy')}">20/01/1990</td>
+              <td th:text="${user.status}">ACTIVE</td>
+
+              <td>
+              <a th:href="@{'edit/' + ${user.idUser}}" class="btn btn-sm btn-warning">Edit</a>
+              <a th:href="@{'delete/' + ${user.idUser}}" class="btn btn-sm btn-danger"
+              onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
+
+              </td>
+            </tr>
+         </tbody>
+
+        </table>
+	</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
