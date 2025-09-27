@@ -3,17 +3,18 @@ package com.simplilearn.spring.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.simplilearn.spring.model.User;
 import com.simplilearn.spring.service.UserService;
 
-@Controller
+@RestController
 public class UserController {
 
 
@@ -30,72 +31,44 @@ public class UserController {
 	}
 
 
-	@GetMapping("/list")
-	ModelAndView listUsers() {
+	@GetMapping("/user")
+	List<User> listUsers() {
 
-		List<User> users = service.findAll();
-
-		return new ModelAndView("list", "users", users);
+		return service.findAll();
 	}
 
 
 
-
-	@GetMapping("/add")
-	String addUser(User user) {
-
-		return "add";
-	}
-
-	@PostMapping("/add")
-	String saveUser(User user, BindingResult result) {
-
-		if(result.hasErrors()) {
-			return "add";
-		}
-
-		//Check if username already exists
-		Optional<User> existingUser = service.findByUsername(user);
-		if (existingUser.isPresent()) {
-			result.rejectValue("username", "error.user", "Username already exists");
-			return "add";
-		}
+	@PostMapping("/user")
+	void saveUser(@RequestBody User user) {
 
 		service.save(user);
-		return "redirect:/list";
 	}
 
-	@GetMapping("/edit/{id}")
-	ModelAndView editUser(@PathVariable int id) {
 
-		Optional<User> user = service.findById(id);
+	@GetMapping("/user/{id}")
+	Optional<User> findUser(@PathVariable int id) {
 
-		if(user.isPresent()) {
-			return new ModelAndView("edit", "user", user.get());
-		}else {
-			return new ModelAndView("redirect:/list");
-		}
+		return service.findById(id);
+
+
 	}
 
-	@PostMapping("/edit")
-	String updateUser(User user, BindingResult result) {
+	//update user must us putmapping
+	@PutMapping("/user")
+	void updateUser(@RequestBody User user) {
 
-		Optional<User> existingUser = service.findByUsername(user);
-		if (existingUser.isPresent()) {
-			result.rejectValue("username", "error.user", "Username already exists");
-			return "edit";
-		}
+
 
 		service.update(user);
-		return "redirect:/list";
-
 	}
 
-	@GetMapping("/delete/{id}")
-	String deleteUser(@PathVariable int id) {
+
+	@DeleteMapping("/user")
+	void deleteUser(@PathVariable int id) {
 
 		service.delete(id);
-		return "redirect:/list";
+
 	}
 
 
