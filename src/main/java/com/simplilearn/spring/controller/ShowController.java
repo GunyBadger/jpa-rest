@@ -17,11 +17,7 @@ import com.simplilearn.spring.service.UserService;
 public class ShowController {
 
 
-	UserService service;
 
-	ShowController(UserService service){
-		this.service= service;
-	}
 
 	@GetMapping("/")
 	String showHome() {
@@ -31,11 +27,9 @@ public class ShowController {
 
 
 	@GetMapping("/list")
-	ModelAndView listUsers() {
+	String listUsers() {
 
-		List<User> users = service.findAll();
-
-		return new ModelAndView("list", "users", users);
+		return "list";
 	}
 
 
@@ -47,56 +41,18 @@ public class ShowController {
 		return "add";
 	}
 
-	@PostMapping("/add")
-	String saveUser(User user, BindingResult result) {
 
-		if(result.hasErrors()) {
-			return "add";
-		}
-
-		//Check if username already exists
-		Optional<User> existingUser = service.findByUsername(user);
-		if (existingUser.isPresent()) {
-			result.rejectValue("username", "error.user", "Username already exists");
-			return "add";
-		}
-
-		service.save(user);
-		return "redirect:/list";
-	}
 
 	@GetMapping("/edit/{id}")
 	ModelAndView editUser(@PathVariable int id) {
 
-		Optional<User> user = service.findById(id);
 
-		if(user.isPresent()) {
-			return new ModelAndView("edit", "user", user.get());
-		}else {
-			return new ModelAndView("redirect:/list");
-		}
-	}
-
-	@PostMapping("/edit")
-	String updateUser(User user, BindingResult result) {
-
-		Optional<User> existingUser = service.findByUsername(user);
-		if (existingUser.isPresent()) {
-			result.rejectValue("username", "error.user", "Username already exists");
-			return "edit";
-		}
-
-		service.update(user);
-		return "redirect:/list";
+			return new ModelAndView("edit", "id", id);
 
 	}
 
-	@GetMapping("/delete/{id}")
-	String deleteUser(@PathVariable int id) {
 
-		service.delete(id);
-		return "redirect:/list";
-	}
+
 
 
 }

@@ -21,14 +21,9 @@ public class UserController {
 	UserService service;
 
 	UserController(UserService service){
-		this.service= service;
+		this.service = service;
 	}
 
-	@GetMapping("/")
-	String showHome() {
-
-		return "home";
-	}
 
 
 	@GetMapping("/user")
